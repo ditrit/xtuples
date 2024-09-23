@@ -1,0 +1,11 @@
+# Use a minimal base image
+FROM alpine:latest
+
+# Copy the binary to the container
+COPY agent /app/
+
+# Set the working directory
+WORKDIR /app
+
+# Run the binary
+CMD ["./agent"]

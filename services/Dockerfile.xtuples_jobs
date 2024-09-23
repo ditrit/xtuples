@@ -1,0 +1,4 @@
+FROM xtuples_jobs
+ADD pysrc/server.py .
+CMD ["python", "./server.py"]
+

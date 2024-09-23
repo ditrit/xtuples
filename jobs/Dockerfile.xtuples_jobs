@@ -1,0 +1,7 @@
+FROM python:3.12-alpine
+RUN pip install grpcio-tools==1.65.5
+ADD pysrc/dist/xtuples_jobs-0.0.1-py3-none-any.whl .
+RUN pip install xtuples_jobs-0.0.1-py3-none-any.whl
+ 
+
+

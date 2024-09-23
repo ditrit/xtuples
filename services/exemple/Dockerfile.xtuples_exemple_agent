@@ -1,0 +1,3 @@
+# Use a minimal base image
+FROM xtuples_agent
+ADD ./config.yaml /app/ 

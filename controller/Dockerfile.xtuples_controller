@@ -1,0 +1,11 @@
+# Use a minimal base image
+FROM alpine:latest
+
+# Copy the binary to the container
+COPY go-http /app/
+
+# Set the working directory
+WORKDIR /app
+
+# Run the binary
+CMD ["./go-http"]

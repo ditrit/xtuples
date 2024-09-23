@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xtuples_jobs"
+version = "0.0.1"
+authors = [
+  { name="Xavier Talon", email="reivaxt@gmail.com" },
+]
+description = "python grpc xtuples job server"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "grpcio-tools==1.65.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/ditrit/xtuples"
+Issues = "https://github.com/ditrit/xtuples/issues"

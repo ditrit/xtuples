@@ -1,0 +1,17 @@
+agents:
+  - filter: {step: ready}
+    job: {name: init_keys, scale: 1}
+    on_success: {step: compute}
+
+  - filter: {step: compute, one_of: init} 
+    job: {name: call_api, scale: 5}
+    on_success: {state: computed}
+
+  - filter: {step: compute, one_of: computed}
+    job: {name: s32db, scale: 5}
+    on_success: {state: done}
+
+  - filter: {step: compute, empty: [init, computed]}
+    job: {name: aggregate, scale: 1}
+    on_success: {step: end}
+name:     exemple

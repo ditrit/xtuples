@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "./;main"; 
+
+
+message JobRequest {
+    string key = 2;
+}
+
+message JobResponse {
+    int32 ret = 1;
+}
+
+service JobService {
+    rpc CallJob (JobRequest) returns (JobResponse) {}
+}

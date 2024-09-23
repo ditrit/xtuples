@@ -1,0 +1,5 @@
+#!/bin/bash
+ python -m grpc_tools.protoc -I../../.. --python_out=. --grpc_python_out=. ../../../xtuples.proto
+ sed -i 's/import xtuples_pb2/from . import xtuples_pb2/' xtuples_pb2_grpc.py
+
+
