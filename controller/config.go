@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/supertokens/supertokens-golang/ingredients/emaildelivery"
 	"github.com/supertokens/supertokens-golang/recipe/dashboard"
 	"github.com/supertokens/supertokens-golang/recipe/emailpassword"
@@ -15,14 +17,14 @@ import (
 
 var smtpUsername = "..."
 var smtpSettings = emaildelivery.SMTPSettings{
-	Host: // "smtp.mail.ovh.net",
+	Host: os.Getenv("SMTP_HOST"),
 	From: emaildelivery.SMTPFrom{
-		Name:  "",
-		Email: "",
+		Name:  os.Getenv("EMAIL_FROM_NAME"),
+		Email: os.Getenv("EMAIL_FROM_EMAIL"),
 	},
 	Port:     465,
 	Username: &smtpUsername, // this is optional. In case not given, from.email will be used
-	Password: """",
+	Password: os.Getenv("EMAIL_PASSWORD"),
 	Secure:   true,
 	// this is optional. TLS config is used if Secure is set to true, or server supports STARTTLS
 	// if not provided, the SDK will use a default config

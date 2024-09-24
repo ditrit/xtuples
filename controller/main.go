@@ -2,12 +2,14 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"io/fs"
 	"log"
 	"net/http"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/supertokens/supertokens-golang/supertokens"
 )
 
@@ -15,8 +17,16 @@ import (
 var efs embed.FS
 
 func main() {
-	err := supertokens.Init(SuperTokensConfig)
 
+	err := godotenv.Load(".env")
+	if err != nil {
+		err = godotenv.Load("../.env")
+		if err != nil {
+			fmt.Println("No .env file found")
+		}
+	}
+
+	err = supertokens.Init(SuperTokensConfig)
 	if err != nil {
 		panic(err.Error())
 	}
