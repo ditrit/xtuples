@@ -7,6 +7,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
+var DB *sql.DB
+
 // DsnString returns a string that is used to connect to the database
 func DsnString(host, user, pass, name string, port int, ssl, timezone string) string {
 	dsn := fmt.Sprintf(

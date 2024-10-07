@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS crons (
   updated_at    TIMESTAMP         NOT NULL DEFAULT NOW(),
 
   -- new columns below
-  change_me     VARCHAR(300)      NOT NULL
+  task_name     VARCHAR(300)      NOT NULL
 );
 
 
@@ -22,20 +22,20 @@ FROM        crons;
 
 
 -- name: Cron_GetAll :many
-SELECT      cron_id, created_at, change_me
+SELECT      cron_id, created_at, task_name
 FROM        crons
 ORDER BY    created_at DESC;
 
 
 -- name: Cron_GetAllWithPaginationFirstPage :many
-SELECT      cron_id, created_at, change_me
+SELECT      cron_id, created_at, task_name
 FROM        crons
 ORDER BY    created_at DESC
 LIMIT       $1;
 
 
 -- name: Cron_GetAllWithPaginationNextPage :many
-SELECT      cron_id, created_at, change_me
+SELECT      cron_id, created_at, task_name
 FROM        crons
 WHERE ( created_at <= @created_at::TIMESTAMP  OR 
       ( created_at = @created_at::TIMESTAMP   AND cron_id < @cron_id::uuid ))
@@ -44,42 +44,42 @@ LIMIT       @_limit::int;
 
 
 -- name: Cron_GetAllWhereCreatedAt :many
-SELECT      cron_id, created_at, change_me
+SELECT      cron_id, created_at, task_name
 FROM        crons
 WHERE       created_at = $1
 ORDER BY    created_at DESC;
 
 
 -- name: Cron_GetAllBetweenDates :many
-SELECT      cron_id, created_at, change_me
+SELECT      cron_id, created_at, task_name
 FROM        crons
 WHERE       created_at BETWEEN SYMMETRIC $1 AND $2
 ORDER BY    created_at DESC;
 
 
--- name: Cron_GetWhereChange_MeIncludes :many
-SELECT      cron_id, created_at, change_me
+-- name: Cron_GetWhereTask_NameIncludes :many
+SELECT      cron_id, created_at, task_name
 FROM        crons
-WHERE       change_me ILIKE '%' || ( $1 ) || '%'
+WHERE       task_name ILIKE '%' || ( $1 ) || '%'
 ORDER BY    created_at DESC;
 
 
 -- name: Cron_GetWhereIdEquals :one
-SELECT      cron_id, created_at, change_me
+SELECT      cron_id, created_at, task_name
 FROM        crons
 WHERE       cron_id = $1
 LIMIT 1;
 
 
 -- name: Cron_Create :one
-INSERT INTO crons ( change_me )
+INSERT INTO crons ( task_name )
 VALUES      ( $1 )
 RETURNING   *;
 
 
--- name: Cron_UpdateChange_MeWhereIdEquals :one
+-- name: Cron_UpdateTask_NameWhereIdEquals :one
 UPDATE      crons
-SET         change_me = $1
+SET         task_name = $1
 WHERE       cron_id = $2
 RETURNING   *;
 

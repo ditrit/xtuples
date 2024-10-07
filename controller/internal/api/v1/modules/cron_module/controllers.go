@@ -5,7 +5,6 @@ import (
 	res "go-http/internal/api/response"
 	"go-http/pkg/validate"
 	"net/http"
-	"strconv"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -28,9 +27,7 @@ func Router(api *chi.Mux) {
 
 // GET URL/cron
 func GetCrons(w http.ResponseWriter, r *http.Request) {
-
-	// replace the function to return the data from the db
-	data, err := placeholderFunc()
+	data, err := SelectCrons()
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
@@ -40,18 +37,17 @@ func GetCrons(w http.ResponseWriter, r *http.Request) {
 	res.Response(w, 200, data, "", res.PaginationLinks{})
 }
 
-// GET URL/cron/[id:int]
+// GET URL/cron/[id:string]
 func GetCron(w http.ResponseWriter, r *http.Request) {
 
-	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		res.Response(w, 400, nil, res.ParamIsNotIntMessage)
-		return
-	}
-	_ = id
+	// id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	// if err != nil {
+	// 	res.Response(w, 400, nil, res.ParamIsNotIntMessage)
+	// 	return
+	// }
+	id := chi.URLParam(r, "id")
 
-	// replace the function to return the data from the db
-	data, err := placeholderFunc()
+	data, err := SelectCron(id)
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
@@ -71,8 +67,7 @@ func CreateCron(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// replace the function to return the data from the db
-	data, err := placeholderFunc()
+	data, err := InsertCron(*payload)
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
@@ -86,10 +81,8 @@ func CreateCron(w http.ResponseWriter, r *http.Request) {
 func DeleteCron(w http.ResponseWriter, r *http.Request) {
 
 	id := chi.URLParam(r, "id")
-	_ = id
 
-	// replace the function to return the data from the db
-	data, err := placeholderFunc()
+	data, err := DelCron(id)
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
@@ -99,7 +92,7 @@ func DeleteCron(w http.ResponseWriter, r *http.Request) {
 	res.Response(w, 200, data, "")
 }
 
-// PUT URL/cron/[id:int]
+// PUT URL/cron/[id:string]
 func UpdateCron(w http.ResponseWriter, r *http.Request) {
 
 	// validate the sent body
@@ -109,15 +102,9 @@ func UpdateCron(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		res.Response(w, 400, nil, res.ParamIsNotIntMessage)
-		return
-	}
-	_ = id
+	id := chi.URLParam(r, "id")
 
-	// replace the function to return the data from the db
-	data, err := placeholderFunc()
+	data, err := UpdCron(id, *payload)
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
@@ -125,11 +112,4 @@ func UpdateCron(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res.Response(w, 200, data, "")
-}
-
-// Placeholder function to be replaced in the controllers after codegen.
-// Usually replaced with the function which returns the data from the db.
-func placeholderFunc() (struct{}, error) {
-	var placeholder struct{}
-	return placeholder, nil
 }

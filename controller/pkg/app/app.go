@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"go-http/pkg/settings"
 	"go-http/pkg/settings/cli"
-	_ "go-http/pkg/settings/database"
+	"go-http/pkg/settings/database"
 )
 
 // App is the application struct which contains the environment configuration
@@ -50,15 +50,15 @@ func NewApp(ctx context.Context, cliArgs ...cli.Args) (*App, error) {
 		return nil, fmt.Errorf("error loading .env file, %v", err)
 	}
 
-	// Uncomment the following block and pass it to app if you want to use a db connection
-	// dbConf := conf.Database
-	// dsnString := database.DsnString(dbConf.Host, dbConf.User, dbConf.Pass, dbConf.Name, dbConf.Port, dbConf.SSL, dbConf.Timezone)
-	// db, err := database.NewDbConn(dsnString)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("error creating database connection, %v", err)
-	// }
+	dbConf := conf.Database
+	dsnString := database.DsnString(dbConf.Host, dbConf.User, dbConf.Pass, dbConf.Name, dbConf.Port, dbConf.SSL, dbConf.Timezone)
+	db, err := database.NewDbConn(dsnString)
+	if err != nil {
+		return nil, fmt.Errorf("error creating database connection, %v", err)
+	}
+	database.DB = db
 
-	return &App{conf, nil}, nil
+	return &App{conf, db}, nil
 }
 
 // Exit function groups all the exit functions of the app (e.g. closing the database connection)
