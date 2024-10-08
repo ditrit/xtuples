@@ -13,7 +13,7 @@ type Cron struct {
 	At        string `json:"at"`
 }
 
-func SelectCrons() (any, error) {
+func GetAllCronsSQL() (any, error) {
 	query := "SELECT * FROM crons"
 
 	rows, err := database.GetDB().Query(query)
@@ -45,7 +45,7 @@ func SelectCrons() (any, error) {
 	return crons, nil
 }
 
-func SelectCron(id string) (any, error) {
+func GetCronSQL(id string) (any, error) {
 	query := fmt.Sprintf("SELECT * FROM crons WHERE cron_id='%s'", id)
 
 	var cron Cron
@@ -58,7 +58,7 @@ func SelectCron(id string) (any, error) {
 	return cron, nil
 }
 
-func InsertCron(data CreateCronBody) (any, error) {
+func CreateCronSQL(data CreateCronBody) (any, error) {
 	query := fmt.Sprintf("INSERT INTO crons (task_name,at) VALUES ('%s','%s')", data.Taskname, data.At)
 
 	res, err := database.GetDB().Exec(query)
@@ -69,7 +69,7 @@ func InsertCron(data CreateCronBody) (any, error) {
 	return res, nil
 }
 
-func DelCron(id string) (any, error) {
+func DeleteCronSQL(id string) (any, error) {
 	query := fmt.Sprintf("DELETE FROM crons WHERE cron_id='%s'", id)
 
 	res, err := database.GetDB().Exec(query)
@@ -80,8 +80,8 @@ func DelCron(id string) (any, error) {
 	return res, nil
 }
 
-func UpdCron(id string, data UpdateCronBody) (any, error) {
-	query := fmt.Sprintf("UPDATE crons SET task_name='%s', at='%s'  WHERE cron_id='%s'", data.Taskname, data.At, id)
+func UpdateCronSQL(id string, data UpdateCronBody) (any, error) {
+	query := fmt.Sprintf("UPDATE crons SET task_name='%s', at='%s' WHERE cron_id='%s'", data.Taskname, data.At, id)
 
 	res, err := database.GetDB().Exec(query)
 	if err != nil {

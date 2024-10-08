@@ -27,7 +27,7 @@ func Router(api *chi.Mux) {
 
 // GET URL/cron
 func GetCrons(w http.ResponseWriter, r *http.Request) {
-	data, err := SelectCrons()
+	data, err := GetAllCronsSQL()
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
@@ -41,7 +41,7 @@ func GetCrons(w http.ResponseWriter, r *http.Request) {
 func GetCron(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 
-	data, err := SelectCron(id)
+	data, err := GetCronSQL(id)
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
@@ -61,7 +61,7 @@ func CreateCron(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := InsertCron(*payload)
+	data, err := CreateCronSQL(*payload)
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
@@ -76,7 +76,7 @@ func DeleteCron(w http.ResponseWriter, r *http.Request) {
 
 	id := chi.URLParam(r, "id")
 
-	data, err := DelCron(id)
+	data, err := DeleteCronSQL(id)
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
@@ -98,7 +98,7 @@ func UpdateCron(w http.ResponseWriter, r *http.Request) {
 
 	id := chi.URLParam(r, "id")
 
-	data, err := UpdCron(id, *payload)
+	data, err := UpdateCronSQL(id, *payload)
 	if err != nil {
 		fmt.Printf("Error occured while calling db: %v\n", err) // replace with logger
 		res.Response(w, 400, nil, res.FailedDbConnMessage)
