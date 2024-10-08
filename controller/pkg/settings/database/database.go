@@ -7,7 +7,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var DB *sql.DB
+var database *sql.DB
 
 // DsnString returns a string that is used to connect to the database
 func DsnString(host, user, pass, name string, port int, ssl, timezone string) string {
@@ -36,5 +36,10 @@ func NewDbConn(dsnString string) (*sql.DB, error) {
 		return nil, fmt.Errorf("error pinging database: %v", err)
 	}
 
+	database = db
 	return db, err
+}
+
+func GetDB() *sql.DB {
+	return database
 }

@@ -39,12 +39,6 @@ func GetCrons(w http.ResponseWriter, r *http.Request) {
 
 // GET URL/cron/[id:string]
 func GetCron(w http.ResponseWriter, r *http.Request) {
-
-	// id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	// if err != nil {
-	// 	res.Response(w, 400, nil, res.ParamIsNotIntMessage)
-	// 	return
-	// }
 	id := chi.URLParam(r, "id")
 
 	data, err := SelectCron(id)

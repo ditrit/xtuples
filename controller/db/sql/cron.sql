@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS crons (
   updated_at    TIMESTAMP         NOT NULL DEFAULT NOW(),
 
   -- new columns below
-  task_name     VARCHAR(300)      NOT NULL
+  task_name     VARCHAR(300)      NOT NULL,
+  at            VARCHAR(300)      NOT NULL
 );
 
 

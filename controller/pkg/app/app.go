@@ -56,7 +56,6 @@ func NewApp(ctx context.Context, cliArgs ...cli.Args) (*App, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error creating database connection, %v", err)
 	}
-	database.DB = db
 
 	return &App{conf, db}, nil
 }
