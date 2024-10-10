@@ -37,11 +37,6 @@ func GetAllCronsSQL() (any, error) {
 		fmt.Println(err)
 		return nil, err
 	}
-
-	// for _, cron := range crons {
-	// 	fmt.Println(cron)
-	// }
-
 	return crons, nil
 }
 
