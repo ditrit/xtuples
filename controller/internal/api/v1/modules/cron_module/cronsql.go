@@ -5,7 +5,7 @@ import (
 	"go-http/pkg/settings/database"
 )
 
-type Cron struct {
+type SCron struct {
 	Id        string `json:"cron_id"`
 	CreatedAt string `json:"created_at"`
 	UpdatedAt string `json:"updated_at"`
@@ -22,9 +22,9 @@ func GetAllCronsSQL() (any, error) {
 		return "", err
 	}
 
-	var crons []Cron
+	var crons []SCron
 	for rows.Next() {
-		var cron Cron
+		var cron SCron
 		err = rows.Scan(&cron.Id, &cron.CreatedAt, &cron.UpdatedAt, &cron.Taskname, &cron.At)
 		if err != nil {
 			fmt.Println(err)
@@ -38,9 +38,9 @@ func GetAllCronsSQL() (any, error) {
 		return nil, err
 	}
 
-	for _, cron := range crons {
-		fmt.Println(cron)
-	}
+	// for _, cron := range crons {
+	// 	fmt.Println(cron)
+	// }
 
 	return crons, nil
 }
@@ -48,7 +48,7 @@ func GetAllCronsSQL() (any, error) {
 func GetCronSQL(id string) (any, error) {
 	query := fmt.Sprintf("SELECT * FROM crons WHERE cron_id='%s'", id)
 
-	var cron Cron
+	var cron SCron
 	row := database.GetDB().QueryRow(query)
 	err := row.Scan(&cron.Id, &cron.CreatedAt, &cron.UpdatedAt, &cron.Taskname, &cron.At)
 	if err != nil {
@@ -66,6 +66,7 @@ func CreateCronSQL(data CreateCronBody) (any, error) {
 		fmt.Println(err)
 		return nil, err
 	}
+	AddCron(SCron{At: data.At, Taskname: data.Taskname})
 	return res, nil
 }
 
@@ -77,6 +78,7 @@ func DeleteCronSQL(id string) (any, error) {
 		fmt.Println(err)
 		return nil, err
 	}
+	ResetCrons()
 	return res, nil
 }
 
@@ -88,5 +90,6 @@ func UpdateCronSQL(id string, data UpdateCronBody) (any, error) {
 		fmt.Println(err)
 		return nil, err
 	}
+	ResetCrons()
 	return res, nil
 }

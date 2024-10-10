@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"go-http/conf"
+	"go-http/internal/api/v1/modules/cron_module"
 	"go-http/pkg/app"
 	"log"
 
@@ -21,5 +22,6 @@ func main() {
 	}
 	defer app.Exit(context.Background())
 
+	cron_module.NewCronInstance()
 	NewServer(app).Start()
 }

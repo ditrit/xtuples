@@ -9,6 +9,7 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.10.9
 	github.com/supertokens/supertokens-golang v0.24.1
+	github.com/robfig/cron/v3 v3.0.1
 )
 
 require (
