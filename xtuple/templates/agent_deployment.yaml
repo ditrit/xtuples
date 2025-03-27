@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xtuples-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xtuples-agent
+  template:
+    metadata:
+      labels:
+        app: xtuples-agent
+    spec:
+      containers:
+        - name: xtuples-agent
+          image: {{ .Values.image.agent.repository }}:{{ .Values.image.agent.tag }}
+          ports:
+            - containerPort: 80
